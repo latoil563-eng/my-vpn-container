@@ -1,11 +1,11 @@
 FROM alpine:latest
 
-RUN apk add --no-cache curl bash ca-certificates && \
-    bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install
+RUN apk update && apk add --no-copy-cache curl bash jq ca-certificates
 
-WORKDIR /etc/xray
+# تثبيت Xray
+RUN bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install
 
 EXPOSE 8080
 
-CMD ["xray", "run", "-config", "/etc/xray/config.json"]
+CMD ["xray", "run", "-confdir", "/etc/xray"]
 
